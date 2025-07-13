@@ -1,0 +1,62 @@
+/* Estilos generales */
+body { font-family: system-ui, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; }
+header { padding: 20px; text-align: center; border-bottom: 1px solid #ddd; background-color: white; }
+
+/* Contenedor principal del horario */
+main { display: flex; gap: 10px; padding: 20px; overflow-x: auto; background-color: #e9eef2; }
+
+/* Columna de cada día */
+.dia-entrenamiento {
+    background-color: #f8f9fa; border-radius: 8px; width: 320px; flex-shrink: 0;
+    display: flex; flex-direction: column;
+}
+
+/* ESTE ES EL NUEVO BOTÓN DE CABECERA */
+.dia-btn-header {
+    width: 100%; padding: 15px; margin: 0; border: none; font-size: 1.2em; font-weight: bold;
+    background-color: #6c757d; color: white; border-radius: 8px 8px 0 0;
+    cursor: pointer; transition: background-color 0.2s;
+}
+.dia-btn-header.activo, .dia-btn-header:hover {
+    background-color: #007bff; /* Color azul para indicar que está activo o en hover */
+}
+
+.ejercicios-lista { padding: 15px; flex-grow: 1; overflow-y: auto; }
+
+.agregar-ejercicio-btn {
+    display: block; width: calc(100% - 30px); margin: 15px; padding: 12px; font-size: 16px;
+    font-weight: bold; background-color: #2c3e50; color: white; border: none; border-radius: 5px;
+    cursor: pointer; transition: background-color 0.2s;
+}
+.agregar-ejercicio-btn:hover { background-color: #34495e; }
+.agregar-ejercicio-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
+
+/* Estilos de los items de ejercicio (sin cambios) */
+.ejercicio-item {
+    padding: 15px; margin-bottom: 10px; border-radius: 5px; background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column;
+    align-items: flex-start; position: relative;
+}
+.ejercicio-nombre { font-size: 1.1em; font-weight: bold; margin-bottom: 15px; }
+.ejercicio-inputs { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+.ejercicio-inputs input { width: 70px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.eliminar-ejercicio-btn {
+    position: absolute; top: 10px; right: 10px; background-color: #dc3545; color: white;
+    border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
+    font-weight: bold; line-height: 25px; text-align: center;
+}
+
+
+/* Pegando estilos previos para que no se pierdan */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; }
+.lista-items { max-height: 300px; overflow-y: auto; text-align: left; margin-bottom: 20px; border: 1px solid #eee; padding: 10px; }
+.lista-items h4 { background-color: #f0f0f0; padding: 8px; margin: 10px 0 5px 0; border-radius: 4px; }
+.lista-items button { display: block; width: 100%; padding: 12px; margin-bottom: 5px; text-align: left; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+.grupo-checkbox-item { display: block; margin-bottom: 12px; }
+.grupo-checkbox-item input { margin-right: 10px; transform: scale(1.2); }
+.grupo-checkbox-item label { font-size: 16px; cursor: pointer; }
+.modal-acciones { display: flex; justify-content: space-between; margin-top: 20px; }
+.btn-confirmar { padding: 10px 20px; border: none; background-color: #04a077; color: white; border-radius: 5px; cursor: pointer; }
+.modal-close-btn { padding: 10px 20px; border: none; background-color: #6c757d; color: white; border-radius: 5px; cursor: pointer; }
+.hidden { display: none; }

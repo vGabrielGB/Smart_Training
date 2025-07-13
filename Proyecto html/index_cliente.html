@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es"> <!--para el idioma en español-->
+<head>
+
+     <title>Smart Train</title>
+
+     <meta charset="UTF-8">
+   
+     <meta name="description" content="informacion">
+     <meta name="keywords" content="ejercicio, gymnasio, rutina">
+     <meta name="author" content="MOI Y VIC">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+     <link rel="stylesheet" href="css/aos.css">
+     <link rel="stylesheet" href="css/style.css">
+
+     <!-- principal hoja de estilos -->
+     <link rel="stylesheet" href="css/tooplate-gymso-style.css">
+
+</head>
+<body class="body" data-spy="scroll" data-target="#navbarNav" data-offset="50">
+
+    <!-- Barra de menu -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+           
+            <a class="navbar-brand" href="index.html">Cliente</a> <!--Nombre del sitio web en la barra:-->
+
+            <!--el toggler es el boton desplegable de la barra de menu en modo responsive -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--estos son los botones de la barra:-->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-lg-auto">
+                    
+                    <!--botones de inicio y nutricion son de scroll, trabajan con el fade-->
+                    <li class="nav-item">
+                        <a href="#inicio" class="nav-link smoothScroll">inicio</a> 
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="#nutricion" class="nav-link smoothScroll">Nutricion</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#comida" class="nav-link">Alimentos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="Ejercicios.html" class="nav-link smoothScroll">Ejercicios</a>
+                    </li>
+
+                  
+                    <!--desplegable calcular-->
+                    <div class="desplegable ml-lg-auto" id="header">
+                       <ul class="navbar-nav ml-lg-auto">
+                            <li><a class="nav-item ml-lg-auto">CALCULAR</a>
+                                <ul>
+                                    <li><a href="calorica.html">calorías</a></li>
+                                    <li><a href="proteica.html">Proteínas</a></li>
+                                    <li><a href="IMC.html">I.M.C</a></li>
+                                    <li><a href="grasa.html">Grasa Corporal</a></li>
+                                    <li><a href="broca.html">Broca</a></li>
+                                    <li><a href="Monnerot-Dumaine.html">Monnreot</a></li>
+                                    <li><a href="gasto .html">Gasto Energético</a></li>
+                                    <li><a href="MetodoDirecto.html">Metodo Directo</a></li>
+
+
+                                </ul>
+                            </li>
+                       </ul>
+                    </div>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+     <!-- comida -->
+<section class="comida section" id="comida">
+        <div class="container" data-aos-delay="300" data-aos="fade-up">
+            <div class="row">
+
+                <div class="ml-lg-0 mx-auto col-lg-5 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
+                    <div class="team-thumb"> <!--contnedor-->
+                                    
+                        <img src="images/logo-mtech2.jpg" class="img-fluid-we" alt="logo">
+
+                             <div class="team-info">
+
+                                <h3>Bienvenid(a/e/o) (somos inclusivos)</h3>
+                               
+                                <ul class="social-icon mt-3">
+                                    <li><a href="#" class="fa fa-twitter"></a></li>
+                                    <li><a href="#" class="fa fa-instagram"></a></li>
+                             </ul>
+                         </div>
+                    </div>
+                </div>
+                             
+<div class="container_progress ml-lg-auto col-lg-8 col-md-6 col-12" data-aos-delay="800" data-aos="fade-up">
+  <div class="skill-box" >
+    <span class="title">I.M.C</span>
+
+    <div class="skill-bar">
+      <span class="skill-per html">
+        <span class="tooltip">80%</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="skill-box">
+    <span class="title">Pesaje</span>
+
+    <div class="skill-bar">
+      <span class="skill-per css">
+        <span class="tooltip">30%</span>
+      </span>
+    </div>
+  </div>
+  <div class="skill-box">
+    <span class="title">Gasto Energetico</span>
+
+    <div class="skill-bar">
+      <span class="skill-per javascript">
+        <span class="tooltip">40%</span>
+      </span>
+    </div>
+  </div>
+  <div class="skill-box">
+    <span class="title">Calorías</span>
+
+    <div class="skill-bar">
+      <span class="skill-per nodejs">
+        <span class="tooltip">60%</span>
+      </span>
+    </div>
+    <br>
+     <h6>Edad:</h6><br>
+     <h6>Altura:</h6><br>
+     <h6>Pesaje:</h6><br>
+     <h6>Condicion:</h6><br>
+     <h6>Objetivo:</h6>
+  </div>
+</div>
+            </div>
+         </div>
+</section>
+
+
+<button id="btn-plantilla">Seleccionar plantilla</button>
+<div id="modal-plantillas" class="modal-overlay hidden">
+  <div class="modal-content">
+    <h3>Selecciona una plantilla</h3>
+    <div id="lista-plantillas"></div>
+    <button onclick="document.getElementById('modal-plantillas').classList.add('hidden')">Cerrar</button>
+  </div>
+</div>
+
+<main id="rutina-container">
+
+    
+        <div class="dia-entrenamiento" data-dia="Lunes">
+            <button class="dia-btn-header">Lunes</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Martes">
+            <button class="dia-btn-header">Martes</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Miércoles">
+            <button class="dia-btn-header">Miércoles</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Jueves">
+            <button class="dia-btn-header">Jueves</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Viernes">
+            <button class="dia-btn-header">Viernes</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Sábado">
+            <button class="dia-btn-header">Sábado</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+        <div class="dia-entrenamiento" data-dia="Domingo">
+            <button class="dia-btn-header">Domingo</button>
+            <div class="ejercicios-lista"></div>
+            <button class="agregar-ejercicio-btn">+ Agregar Ejercicio</button>
+        </div>
+    </main>
+
+    <div id="modal-grupos" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modal-grupos-titulo">Define los grupos musculares</h3>
+            <div id="lista-grupos-checklist" class="lista-items"></div>
+            <div class="modal-acciones">
+                <button id="confirmar-grupos-btn" class="btn-confirmar">Confirmar Grupos</button>
+                <button class="modal-close-btn" onclick="cerrarModal('modal-grupos')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-ejercicios" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modal-ejercicios-titulo">Elige un ejercicio</h3>
+            <input type="text" id="filtro-ejercicio" placeholder="Buscar ejercicio...">
+            <div id="lista-ejercicios" class="lista-items"></div>
+            <button class="modal-close-btn" onclick="cerrarModal('modal-ejercicios')">Cerrar</button>
+        </div>
+    </div>
+
+    <template id="plantilla-ejercicio">
+    <div class="ejercicio-item">
+        <strong class="ejercicio-nombre">Nombre del Ejercicio</strong>
+        <div class="ejercicio-inputs">
+            <input type="text" name="series" placeholder="Series">
+            <input type="text" name="repeticiones" placeholder="Reps">
+            <input type="number" name="peso" placeholder="Peso (kg)">
+            <input type="number" name="descanso" placeholder="Descanso (s)">
+            <input type="number" name="orden" placeholder="Orden">
+        </div>
+        <button class="eliminar-ejercicio-btn">X</button>
+    </div>
+</template>
+
+    <div style="text-align:center; margin: 20px;">
+    <button id="guardar-cambios-btn" class="btn-confirmar">Guardar cambios</button>
+    </div>
+    <div id="tabla-resumen-container" style="padding: 20px;"></div>
+
+     <!-- FOOTER -->
+      
+            <footer class="site-footer">
+                <div class="container">
+                    <div class="row">
+
+                            <div class="d-flex justify-content-center mx-auto col-lg-5 col-md-7 col-12">
+                                <p class="mr-4">
+                                    <i class="fa fa-instagram mr-1"></i>
+                                    <a href="https://www.instagram.com/moiissex/" target="_blank">Desarrollador
+                                    </a>
+                                </p>
+                                 <i class="fa fa-facebook mr-1"></i>
+                                <a href="https://www.facebook.com/PSMMaracay/">Politecnico Santiago Mariño</a>
+                            </div>
+                    </div>
+                </div>
+            </footer>
+
+      </div>
+    </div>
+
+     <!-- estos son los scripts que tienen las animaciones, estilos, etc -->
+     <script src="js/jquery.min.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/aos.js"></script>
+     <script src="js/smoothscroll.js"></script>
+     <script src="js/custom.js"></script>
+     <script src="js/script.js"></script>
+
+</body>
+</html>

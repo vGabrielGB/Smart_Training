@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+
+        <title>Ejercicios</title>
+        <meta charset="UTF-8">
+
+
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/aos.css">
+        <link rel="stylesheet" href="css/tooplate-gymso-style.css">
+    </head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+           
+            <a class="navbar-brand" href="index.html">Smart Train</a> <!--Nombre del sitio web en la barra:-->
+
+            <!--el toggler es el boton desplegable de la barra de menu en modo responsive -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <nav class="navbar navbar-expand-lg fixed-top">
+                <div class="container">
+                   
+                    <a class="navbar-brand" href="index.html">Smart Train</a> <!--Nombre del sitio web en la barra:-->
+          
+                    <!--el toggler es el boton desplegable de la barra de menu en modo responsive -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+          
+                    <!--botones de la navBar:-->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-lg-auto">
+                            
+                            <!--los botones de inicio y nutricion son de scroll, trabajan con el fade-->
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link smoothScroll">inicio</a> 
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link smoothScroll">Nutricion</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link smoothScroll">Alimentos</a>
+                            </li>
+                            
+                            <!--y los botones de ejercicios y calculadoras son para redireccionar a otras paginas del sitio web-->
+                            <li class="nav-item">
+                                <a href="Ejercicios.html" class="nav-link smoothScroll">Ejercicios</a>
+                            </li>
+          
+                            <!--desplegable calcular-->
+                            <div class="desplegable ml-lg-auto" id="header">
+                                <ul class="navbar-nav ml-lg-auto">
+                                    <li><a class="nav-item ml-lg-auto">CALCULAR</a>
+                                        <ul>
+                                            <li><a href="calorica.html">calorías</a></li>
+                                            <li><a href="proteica.html">Proteínas</a></li>
+                                            <li><a href="IMC.html">I.M.C</a></li>
+                                            <li><a href="grasa.html">Grasa Corporal</a></li>
+                                            <li><a href="broca.html">Broca</a></li>
+                                            <li><a href="Monnerot-Dumaine.html">Monnreot</a></li>
+                                            <li><a href="gasto .html">Gasto Energético</a></li>
+                                            <li><a href="MetodoDirecto.html">Metodo Directo</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+    </nav>
+
+
+    <section class="about section" id="inicio">
+        <div class="container">
+             <div class="row">
+
+                     <div class="mt-lg-5 mb-lg-0 mb-4 col-lg-5 col-md-10 mx-auto col-12">
+                         <h2 class="mb-4" data-aos="fade-up" data-aos-delay="300">Existen planes de ejercicios estandarizados...</h2>
+
+                         <p data-aos="fade-up" data-aos-delay="400">estos son conjuntos estructurados de actividades físicas diseñados para alcanzar objetivos específicos de acondicionamiento físico, salud o rendimiento. Este tipo de planes se basan en principios de entrenamiento que han sido estudiados, validados y se utilizan comúnmente en el ámbito del ejercicio y la rehabilitación.
+                        </p>
+
+                         <p data-aos="fade-up" data-aos-delay="500">Nuestro plan general deportivo... incluye diferentes tipos de ejercicios, como cardiovasculares, de fuerza, flexibilidad y equilibrio, para abordar múltiples aspectos del fitness.</p>
+
+                     </div>
+
+                     <div class="ml-lg-auto col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
+                         <div class="team-thumb">
+                             <img src="images/team/team-image.jpg" class="img-fluid" alt="Trainer">
+
+                             <div class="team-info d-flex flex-column">
+
+                                 <h3>Musculatura Masculina</h3>
+                                 <span>Musculos mas grandes</span>
+
+                                
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="mr-lg-auto mt-5 mt-lg-0 mt-md-0 col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="800">
+                         <div class="team-thumb">
+                             <img src="images/team/team-image01.jpg" class="img-fluid" alt="Trainer">
+
+                             <div class="team-info d-flex flex-column">
+                                 <h3>Musculatura Femenina</h3>
+                                 <span>Musculos mas pequeños</span>
+                                 
+                             </div>
+                         </div>
+                     </div>
+
+             </div>
+        </div>
+</section>
+
+
+<section class="ejercicios-table" id="inicio">
+        <div class="row">
+            <div class="col-lg-12 py-5 col-md-12 col-12">
+                <table class="table table-bordered table-responsive ejercicios-table" data-aos="fade-up" data-aos-delay="300">
+                    <div class="col-lg-12 col-12 text-center">
+                        <h6 data-aos="fade-up">Plan General Deportivo</h6>
+
+                        <h2 class="text-dark" data-aos="fade-up" data-aos-delay="200">6 Semanas</h2>
+                     </div>
+                            <thead class="thead-light"><!-- Encabezado de la tabla con botones-->
+                                <tr>
+                                    <th>ejercicios</th>
+                                    <th><button>Lunes</button></th>
+                                    <th><button>Martes</button></th>
+                                    <th><button>Miercoles</button></th>
+                                    <th><button>Jueves</button></th>
+                                    <th><button>Viernes</button></th>
+
+                                </tr>
+                            </thead>
+                    <tbody>
+                      
+                    
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</section>
+
+
+
+<!--<section class="ejercicios section" id="hombre">
+               <div class="container">
+                    <div class="row">
+
+                            <div class="col-lg-12 col-12 text-center">
+                                <h6 data-aos="fade-up">Rutina Estandar Semanal</h6>
+
+                                <h2 class="text-white" data-aos="fade-up" data-aos-delay="200">¡HOMBRE!</h2>
+                             </div>
+
+                             <div class="col-lg-12 py-5 col-md-12 col-12">
+                                 <table class="table table-bordered table-responsive ejercicios-table" data-aos="fade-up" data-aos-delay="300">
+
+                                     <thead class="thead-light">
+                                         <th><i class="fa fa-calendar"></i></th>
+                                         <th>Lun</th>
+                                         <th>Mar</th>
+                                         <th>Mie</th>
+                                         <th>Jue</th>
+                                         <th>Vie</th>
+                                         
+                                     </thead>
+
+                                     <tbody>
+
+                                        primera fila
+                                         <tr>
+                                            <td><small>ejercicio 1:</small></td>
+                                            <td>
+                                                <strong>Press de Banca</strong>
+                                                <span>normal</span>
+                                            </td>
+                                            <td>
+                                                <strong>Sentadillas</strong>
+                                                <span>Con barra</span>
+                                            </td>
+                                            <td>
+                                                <strong>Remo</strong>
+                                                <span>Con Barra</span>
+                                            </td>
+                                            <td>
+                                                <strong>Plancha</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>Peso Muerto</strong>
+                                                <span>con barra</span>
+                                            </td>
+                                         </tr>
+
+                                         segunda fila
+                                         <tr>
+                                            <td><small>ejercicio 2:</small></td>
+                                            <td>
+                                                <strong>Press Militar</strong>
+                                                <span>Con barra</span>
+                                            </td>
+                                            <td>
+                                                <strong>Zancadas</strong>
+                                                <span>Comunes</span>
+                                            </td>
+                                            <td>
+                                                <strong>dominadas</strong>
+                                                <span>Comunes</span>
+                                            </td>
+                                            <td>
+                                                <strong>Crunch Abdominal</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>Curl Femoral</strong>
+                                                <span></span>
+                                            </td>
+
+                                         tercera fila
+                                         <tr>
+                                            <td><small>ejercicio 3:</small></td>
+                                            <td>
+                                                <strong>Aperturas</strong>
+                                                <span>Con Mancuernas</span>
+                                            </td>
+                                            <td>
+                                                <strong>Extension de cuadriceps</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>Curl de bíceps</strong>
+                                                <span>Con barra</span>
+                                            </td>
+                                            <td>
+                                                <strong>Burpees</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>Puente de Gluteos</strong>
+                                                <span></span>
+                                            </td>
+                                         </tr>
+
+                                         cuarta fila
+                                         <tr>
+                                            <td><small>ejercicio 4:</small></td>
+                                            <td>
+                                                <strong>Extension de triceps</strong>
+                                                <span>con barra</span>
+                                            </td>
+                                            <td>
+                                                <strong>Prensa de Piernas</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>remo horizontal</strong>
+                                                <span>con mancuernas</span>
+                                            </td>
+                                            <td>
+                                                <strong>Saltos de Tijera</strong>
+                                                <span></span>
+                                            </td>
+                                            <td>
+                                                <strong>Elevaciones de cadera</strong>
+                                                <span>con barra</span>
+                                            </td>
+                                         </tr>
+
+
+                                     </tbody>
+                                 </table>
+                             </div>
+
+                    </div>
+               </div>
+     </section>
+
+     <section class="ejercicios section" id="mujer">
+        <div class="container">
+             <div class="row">
+
+                     <div class="col-lg-12 col-12 text-center">
+                         <h6 data-aos="fade-up">Rutina Estandar Semanal</h6>
+
+                         <h2 class="text-white" data-aos="fade-up" data-aos-delay="200">¡MUJER!</h2>
+                      </div>
+
+                      <div class="col-lg-12 py-5 col-md-12 col-12">
+                          <table class="table table-bordered table-responsive ejercicios-table" data-aos="fade-up" data-aos-delay="300">
+
+                              <thead class="thead-light">
+                                  <th><i class="fa fa-calendar"></i></th>
+                                  <th>Lun</th>
+                                  <th>Mar</th>
+                                  <th>Mie</th>
+                                  <th>Jue</th>
+                                  <th>Vie</th>
+                                  
+                              </thead>
+
+                              <tbody>
+
+                                 primera fila
+                                  <tr>
+                                     <td><small>ejercicio 1:</small></td>
+                                     <td>
+                                         <strong>Sentadillas</strong>
+                                         <span>con barra</span>
+                                     </td>
+                                     <td>
+                                         <strong>Aperturas de pecho</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Patadas de Gluteos</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Jalon al Pecho</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Sentadillas</strong>
+                                         <span>Con propio peso</span>
+                                     </td>
+                                  </tr>
+
+                                  segunda fila
+                                  <tr>
+                                     <td><small>ejercicio 2:</small></td>
+                                     <td>
+                                         <strong>Extension de Cuadriceps</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>extencion de triceps</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Puentes de Gluteos</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Remo</strong>
+                                         <span>Con mancuernas</span>
+                                     </td>
+                                     <td>
+                                         <strong>Peso Muerto</strong>
+                                         <span></span>
+                                     </td>
+
+                                  tercera fila
+                                  <tr>
+                                     <td><small>ejercicio 3:</small></td>
+                                     <td>
+                                         <strong>prensa de piernas</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>laterales</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Saltos de Tijera</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Martillo</strong>
+                                         <span>con mancuernas</span>
+                                     </td>
+                                     <td>
+                                         <strong>Curl Femoral de Pie</strong>
+                                         <span></span>
+                                     </td>
+                                  </tr>
+
+                                  cuarta fila
+                                  <tr>
+                                     <td><small>ejercicio 4:</small></td>
+                                     <td>
+                                         <strong>Zancadas</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Press Frances</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Burpees</strong>
+                                         <span></span>
+                                     </td>
+                                     <td>
+                                         <strong>Curl de Bicepcs</strong>
+                                         <span>Con mancuernas</span>
+                                     </td>
+                                     <td>
+                                         <strong>Curl femoral Acostada</strong>
+                                         <span></span>
+                                     </td>
+                                  </tr>
+
+
+                              </tbody>
+                          </table>
+                      </div>
+
+             </div>
+        </div>
+</section>-->
+
+     <script src="js/jquery.min.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/aos.js"></script>
+     <script src="js/smoothscroll.js"></script>
+     <script src="js/custom.js"></script>
+    </body>
+</html>
