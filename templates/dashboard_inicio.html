@@ -6,36 +6,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Training - Tu Gimnasio</title>
-    <!-- Conectamos el CSS -->
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        .form-section { padding: 4rem 2rem; background-color: #f9fafb; display: flex; justify-content: center; }
-        .form-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-        .form-select, .form-input, .form-file-input { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-submit { background-color: #2563eb; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
-        .btn-submit:hover { background-color: #1d4ed8; }
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background-color: #d1fae5; color: #065f46; }
-        .messages li.warning { background-color: #fef3c7; color: #92400e; }
-        .status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
-        .status-activa { background-color: #d1fae5; color: #065f46; }
-        .status-pendiente { background-color: #fef3c7; color: #92400e; }
-        /* Modal Styles */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        .modal-content { background-color: #fefefe; margin: auto; padding: 2rem; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 8px; position: relative; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px; }
-        .close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
+        :root {
+            --bg-dark: #09090b;
+            --bg-gradient: linear-gradient(145deg, #09090b 0%, #172554 100%);
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(14, 165, 233, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #0ea5e9;
+            --accent-hover: #0284c7;
+            --accent-secondary: #10b981;
+            --accent-sec-hover: #059669;
+            --danger: #ef4444;
+            --glass-blur: blur(16px);
+            --input-bg: rgba(9, 9, 11, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Ambient glowing orbs - Energetic colors */
+        .ambient-orb {
+            position: fixed; border-radius: 50%; filter: blur(100px);
+            z-index: -1; opacity: 0.4;
+            animation: pulse-float 12s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 350px; height: 350px; background: #0ea5e9; top: -100px; left: -100px; }
+        .orb-2 { width: 450px; height: 450px; background: #10b981; bottom: -150px; right: -100px; animation-delay: -6s; }
+
+        @keyframes pulse-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            100% { transform: translate(50px, 40px) scale(1.1); opacity: 0.5; }
+        }
+
+        /* Navbar Styles */
+        .header {
+            width: 100%;
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            max-width: 1200px; margin: 0 auto; padding: 1.2rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .nav-bar h1 {
+            font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            background: linear-gradient(to right, #0ea5e9, #10b981);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: var(--text-main); text-decoration: none; font-weight: 500;
+            padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s ease;
+        }
+        .nav-links a:hover { background: rgba(14, 165, 233, 0.1); color: var(--accent-primary); }
+
+        /* Main Layout */
+        .main-content {
+            flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hero Section */
+        .hero {
+            text-align: center; padding: 4rem 1rem; margin-bottom: 3rem;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid var(--card-border); border-radius: 20px;
+            backdrop-filter: var(--glass-blur);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .hero h2 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* Messages */
+        .messages { list-style: none; margin-bottom: 2rem; }
+        .messages li {
+            padding: 1rem 1.5rem; margin-bottom: 1rem; border-radius: 12px;
+            background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399; backdrop-filter: var(--glass-blur); font-weight: 500;
+            animation: slideIn 0.5s ease-out;
+        }
+        .messages li.warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Planes Grid */
+        .planes-section h3 {
+            font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 2rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .planes-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+        }
+        
+        .plan-card {
+            background: var(--card-bg); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border); border-radius: 20px;
+            padding: 2.5rem 2rem; text-align: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .plan-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .plan-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.2); }
+        .plan-card:hover::before { opacity: 1; }
+        
+        .plan-card h4 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .plan-card .precio {
+            font-size: 2.5rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 1rem;
+        }
+        .plan-card .descripcion { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; min-height: 50px; }
+        .plan-card .duracion {
+            display: inline-block; padding: 0.4rem 1rem; background: rgba(255,255,255,0.05);
+            border-radius: 50px; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn-submit, .btn-suscribir {
+            background: linear-gradient(135deg, var(--accent-primary), #0284c7);
+            color: white; padding: 0.8rem 2rem; border: none; border-radius: 50px;
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+            transition: all 0.3s ease; display: inline-block; text-decoration: none;
+            width: 100%;
+        }
+        .btn-submit:hover, .btn-suscribir:hover {
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+        }
+        .btn-secondary { background: rgba(255,255,255,0.1); box-shadow: none; }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        /* Modals */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(9, 9, 11, 0.8); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; animation: fadeIn 0.3s ease-out;
+        }
+        .modal-content {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 20px; padding: 3rem; width: 90%; max-width: 500px;
+            position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        .close {
+            color: var(--text-muted); position: absolute; right: 1.5rem; top: 1.5rem;
+            font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: color 0.2s;
+        }
+        .close:hover { color: white; }
+
+        .modal-content h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.8rem; color: #fff; }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 500; color: #cbd5e1; font-size: 0.95rem; }
+        .form-select, .form-input, .form-file-input, select, input[type="text"] {
+            width: 100%; padding: 0.8rem 1rem; background-color: var(--input-bg);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+            color: white; font-family: inherit; font-size: 1rem; transition: all 0.3s ease; outline: none;
+        }
+        .form-select:focus, .form-input:focus, select:focus, input[type="text"]:focus {
+            border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+        }
+
+        .status-badge {
+            display: inline-block; padding: 0.3rem 1rem; border-radius: 50px;
+            font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;
+        }
+        .status-activa { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-pendiente { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
     </style>
 </head>
 
 <body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
     {% include 'includes/navbar_cliente.html' %}
 
     <main class="main-content">
         {% if messages %}
-        <div style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <div style="max-width: 800px; margin: 0 auto 2rem;">
             <ul class="messages">
                 {% for message in messages %}
                     <li class="{{ message.tags }}">{{ message }}</li>
@@ -58,11 +237,11 @@
                     <h4>{{ plan.nombre }}</h4>
                     <p class="precio">${{ plan.precio }}</p>
                     <p class="descripcion">{{ plan.descripcion }}</p>
-                    <p class="duracion">Válido por: {{ plan.duracion_dias }} días</p>
+                    <span class="duracion">Válido por: {{ plan.duracion_dias }} días</span>
                     <button class="btn-suscribir" onclick="seleccionarPlan('{{ plan.id }}')">Suscribirme</button>
                 </div>
                 {% empty %}
-                <p>No hay planes disponibles por el momento.</p>
+                <p style="text-align: center; grid-column: 1/-1; color: var(--text-muted); font-size: 1.1rem;">No hay planes disponibles por el momento.</p>
                 {% endfor %}
             </div>
         </section>
@@ -73,16 +252,19 @@
             <div class="modal-content">
                 <span class="close" onclick="cerrarModal()">&times;</span>
                 {% if suscripcion %}
-                    <h2 style="margin-top:0;">Estado de tu Suscripción</h2>
-                    <p>Plan actual: <strong>{{ suscripcion.plan.nombre }}</strong></p>
-                    <p>Estado: <span class="status-badge status-{{ suscripcion.estado }}">{{ suscripcion.get_estado_display }}</span></p>
-                    {% if suscripcion.estado == 'pendiente' %}
-                        <p style="color: #6b7280; margin-top: 1rem;">Tu comprobante está siendo verificado. Te notificaremos cuando sea aprobado.</p>
-                    {% else %}
-                        <p>Vence el: {{ suscripcion.fecha_fin|date:"d/m/Y" }}</p>
-                    {% endif %}
+                    <h2>Estado de tu Suscripción</h2>
+                    <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <p style="margin-bottom: 1rem;">Plan actual: <strong style="color: #fff; font-size: 1.1rem;">{{ suscripcion.plan.nombre }}</strong></p>
+                        <p style="margin-bottom: 1rem;">Estado: <span class="status-badge status-{{ suscripcion.estado }}">{{ suscripcion.get_estado_display }}</span></p>
+                        {% if suscripcion.estado == 'pendiente' %}
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Tu comprobante está siendo verificado. Te notificaremos cuando sea aprobado.</p>
+                        {% else %}
+                            <p>Vence el: <strong style="color: #fff;">{{ suscripcion.fecha_fin|date:"d/m/Y" }}</strong></p>
+                        {% endif %}
+                    </div>
+                    <button class="btn-submit btn-secondary" onclick="cerrarModal()">Entendido</button>
                 {% else %}
-                    <h2 style="margin-top:0;">Reportar Pago de Membresía</h2>
+                    <h2>Reportar Pago de Membresía</h2>
                     <form method="POST" enctype="multipart/form-data" id="payment-form">
                         {% csrf_token %}
                         <div class="form-group">
@@ -101,7 +283,7 @@
                             <label for="{{ form.captura_pago.id_for_label }}">Captura / Comprobante</label>
                             {{ form.captura_pago }}
                         </div>
-                        <button type="submit" class="btn-submit">Enviar Comprobante</button>
+                        <button type="submit" class="btn-submit" style="margin-top: 1rem;">Enviar Comprobante</button>
                     </form>
                 {% endif %}
             </div>
@@ -109,13 +291,15 @@
         {% elif not user.is_authenticated %}
         <!-- Modal para No Logueados -->
         <div id="loginModal" class="modal">
-            <div class="modal-content" style="text-align: center;">
+            <div class="modal-content" style="text-align: center; padding: 4rem 2rem;">
                 <span class="close" onclick="cerrarModalLogin()">&times;</span>
                 <h2>Inicia Sesión</h2>
-                <p>Debes iniciar sesión para suscribirte a un plan.</p>
-                <br>
-                <a href="{% url 'login' %}" class="btn-submit" style="text-decoration:none; display:inline-block; margin-bottom: 10px;">Ingresar</a>
-                <a href="{% url 'registro' %}" class="btn-submit" style="text-decoration:none; display:inline-block; background-color: #6b7280;">Registrarse</a>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Debes iniciar sesión para suscribirte a un plan de entrenamiento.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 300px; margin: 0 auto;">
+                    <a href="{% url 'login' %}" class="btn-submit">Ingresar</a>
+                    <a href="{% url 'registro' %}" class="btn-submit btn-secondary">Registrarse</a>
+                </div>
             </div>
         </div>
         {% endif %}
@@ -147,7 +331,6 @@
             if(loginModal) loginModal.style.display = "none";
         }
 
-        // Cerrar modal al hacer click fuera de él
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";

@@ -4,53 +4,299 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aprobaciones - Smart Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
+            --bg-color: #0f172a;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #6366f1;
+            --accent-hover: #4f46e5;
             --success-color: #10b981;
             --success-hover: #059669;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --glass-blur: blur(12px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color); color: var(--text-main);
-            margin: 0; padding: 2rem;
-            display: flex; justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .container { max-width: 1000px; width: 100%; }
-        
+        /* Ambient glowing orbs */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #6366f1; top: -100px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #c026d3; bottom: -150px; right: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Navbar Styles embedded for complete look */
+        .header {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #818cf8;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .messages li {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            backdrop-filter: var(--glass-blur);
+            font-weight: 500;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
         .card {
-            background-color: var(--card-bg); border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        h1 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem; }
-        
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
-        th { background-color: #f9fafb; font-weight: 600; color: var(--text-muted); }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+        }
 
-        .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .card h1 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state h2 {
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .btn-approve {
-            background-color: var(--success-color); color: white;
-            padding: 0.5rem 1rem; border: none; border-radius: 4px;
-            cursor: pointer; font-weight: 600; transition: 0.2s;
+            background: linear-gradient(135deg, var(--success-color), #047857);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
-        .btn-approve:hover { background-color: var(--success-hover); }
 
-        .img-preview { max-width: 100px; border-radius: 4px; border: 1px solid var(--border-color); }
+        .btn-approve:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, var(--danger-color), #b91c1c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-reject:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .img-preview {
+            max-width: 80px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease;
+        }
         
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background-color: #d1fae5; color: #065f46; }
+        .img-preview:hover {
+            transform: scale(1.1);
+        }
+
+        /* Custom Scrollbar for the table */
+        ::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 <body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
     {% include 'includes/navbar_gerente.html' %}
 
     <div class="container">
@@ -62,11 +308,11 @@
             </ul>
         {% endif %}
 
-        <div class="card" style="margin-bottom: 2rem;">
+        <div class="card">
             <h1>Suscripciones Pendientes</h1>
             
             {% if suscripciones %}
-            <div style="overflow-x: auto;">
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -92,19 +338,19 @@
                                         <img src="{{ sub.captura_pago.url }}" alt="Comprobante" class="img-preview">
                                     </a>
                                 {% else %}
-                                    N/D
+                                    <span style="color: var(--text-muted); font-size: 0.9em;">N/D</span>
                                 {% endif %}
                             </td>
                             <td>{{ sub.fecha_reporte|date:"d/m/Y H:i" }}</td>
                             <td>
-                                <div style="display:flex; gap:0.5rem;">
+                                <div class="action-buttons">
                                     <form action="{% url 'aprobar_suscripcion' sub.id %}" method="POST" style="margin: 0;">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-approve">Aprobar Pago</button>
+                                        <button type="submit" class="btn btn-approve">Aprobar</button>
                                     </form>
                                     <form action="{% url 'rechazar_suscripcion' sub.id %}" method="POST" style="margin: 0;" onsubmit="return confirm('¿Rechazar este pago de suscripción?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-approve" style="background-color: #ef4444;">Rechazar</button>
+                                        <button type="submit" class="btn btn-reject">Rechazar</button>
                                     </form>
                                 </div>
                             </td>
@@ -115,7 +361,10 @@
             </div>
             {% else %}
             <div class="empty-state">
-                <h2>No hay suscripciones pendientes</h2>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem; color: var(--text-muted); opacity: 0.5;">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+                <h2>No hay suscripciones pendientes de aprobación</h2>
             </div>
             {% endif %}
         </div>
@@ -124,7 +373,7 @@
             <h1>Órdenes de Tienda Pendientes</h1>
             
             {% if ordenes %}
-            <div style="overflow-x: auto;">
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -150,19 +399,19 @@
                                         <img src="{{ ord.captura_pago.url }}" alt="Comprobante" class="img-preview">
                                     </a>
                                 {% else %}
-                                    N/D
+                                    <span style="color: var(--text-muted); font-size: 0.9em;">N/D</span>
                                 {% endif %}
                             </td>
                             <td>{{ ord.creado_el|date:"d/m/Y H:i" }}</td>
                             <td>
-                                <div style="display:flex; gap:0.5rem;">
+                                <div class="action-buttons">
                                     <form action="{% url 'aprobar_orden' ord.id %}" method="POST" style="margin: 0;">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-approve">Aprobar Orden</button>
+                                        <button type="submit" class="btn btn-approve">Aprobar</button>
                                     </form>
                                     <form action="{% url 'rechazar_orden' ord.id %}" method="POST" style="margin: 0;" onsubmit="return confirm('¿Rechazar este pago de tienda?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-approve" style="background-color: #ef4444;">Rechazar</button>
+                                        <button type="submit" class="btn btn-reject">Rechazar</button>
                                     </form>
                                 </div>
                             </td>
@@ -173,6 +422,9 @@
             </div>
             {% else %}
             <div class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem; color: var(--text-muted); opacity: 0.5;">
+                    <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
                 <h2>No hay órdenes de tienda pendientes</h2>
             </div>
             {% endif %}

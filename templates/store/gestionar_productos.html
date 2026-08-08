@@ -3,121 +3,514 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Productos - Smart Training</title>
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .container { max-width: 1000px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1.5rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-        .form-input, .form-file-input { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-submit { background-color: #2563eb; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-danger { background-color: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
-        th, td { padding: 1rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
-        th { background-color: #f9fafb; }
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background-color: #d1fae5; color: #065f46; }
+        :root {
+            --bg-color: #0f172a;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #6366f1;
+            --accent-hover: #4f46e5;
+            --success-color: #10b981;
+            --success-hover: #059669;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --glass-blur: blur(12px);
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Ambient glowing orbs */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #6366f1; top: -100px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #c026d3; bottom: -150px; right: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Navbar Styles embedded for complete look */
+        .header {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #818cf8;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .messages li {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            backdrop-filter: var(--glass-blur);
+            font-weight: 500;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        h2, h3 {
+            margin-top: 0;
+            color: #f8fafc;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Form Styles */
+        .form-section {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-input, .form-file-input, select, textarea, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus, select:focus, textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-submit, .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), #4338ca);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-submit:hover, .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #b91c1c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .img-preview {
+            max-width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease;
+        }
+        
+        .img-preview:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            color: var(--text-muted);
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
-<body style="background-color: #f3f4f6; margin:0; font-family: sans-serif;">
+<body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
     {% include 'includes/navbar_gerente.html' %}
 
     <div class="container">
-        <h2>Gestionar Productos</h2>
-        
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        <div class="card">
+            <h2>Gestionar Productos</h2>
+            
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
-        <div style="background: #f9fafb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-            <h3>Agregar Nuevo Producto</h3>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" name="crear" value="1">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        {{ form.nombre }}
+            <div class="form-section">
+                <h3>Agregar Nuevo Producto</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="crear" value="1">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            {{ form.nombre }}
+                        </div>
+                        <div class="form-group">
+                            <label>Precio</label>
+                            {{ form.precio }}
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Precio</label>
-                        {{ form.precio }}
+                        <label>Descripción</label>
+                        {{ form.descripcion }}
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Descripción</label>
-                    {{ form.descripcion }}
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label>Stock</label>
-                        {{ form.stock }}
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Stock</label>
+                            {{ form.stock }}
+                        </div>
+                        <div class="form-group">
+                            <label>Imagen</label>
+                            {{ form.imagen }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Imagen</label>
-                        {{ form.imagen }}
-                    </div>
-                </div>
-                <button type="submit" class="btn-submit">Guardar Producto</button>
-            </form>
+                    <button type="submit" class="btn btn-submit" style="margin-top: 1rem;">Guardar Producto</button>
+                </form>
+            </div>
+
+            <h3>Lista de Productos</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prod in productos %}
+                        <tr>
+                            <td>
+                                {% if prod.imagen %}
+                                    <img src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}" class="img-preview">
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-size: 0.9em;">N/D</span>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ prod.nombre }}</strong></td>
+                            <td>${{ prod.precio }}</td>
+                            <td>
+                                <span style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.9em;">
+                                    {{ prod.stock }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-submit" onclick="abrirModalEditar('{{ prod.id }}', '{{ prod.nombre|escapejs }}', '{{ prod.precio }}', '{{ prod.descripcion|escapejs }}', '{{ prod.stock }}')">Editar</button>
+                                    <form method="POST" style="margin: 0;" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="eliminar" value="1">
+                                        <input type="hidden" name="producto_id" value="{{ prod.id }}">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem; color: var(--text-muted); opacity: 0.5;">
+                                        <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                    <h2>No hay productos registrados.</h2>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <h3>Lista de Productos</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for prod in productos %}
-                <tr>
-                    <td>
-                        {% if prod.imagen %}
-                            <img src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}" style="max-width: 50px; border-radius: 4px;">
-                        {% else %}
-                            N/D
-                        {% endif %}
-                    </td>
-                    <td>{{ prod.nombre }}</td>
-                    <td>${{ prod.precio }}</td>
-                    <td>{{ prod.stock }}</td>
-                    <td>
-                        <button class="btn-submit" style="padding: 0.5rem 1rem; margin-right: 0.5rem;" onclick="abrirModalEditar('{{ prod.id }}', '{{ prod.nombre|escapejs }}', '{{ prod.precio }}', '{{ prod.descripcion|escapejs }}', '{{ prod.stock }}')">Editar</button>
-                        <form method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
-                            {% csrf_token %}
-                            <input type="hidden" name="eliminar" value="1">
-                            <input type="hidden" name="producto_id" value="{{ prod.id }}">
-                            <button type="submit" class="btn-danger">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" style="text-align: center;">No hay productos registrados.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 
     <!-- Modal Editar Producto -->
-    <div id="editarModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
-        <div style="background-color: #fefefe; margin: auto; padding: 2rem; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 8px; position: relative;">
-            <span onclick="cerrarModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 10px;">&times;</span>
-            <h2>Editar Producto</h2>
+    <div id="editarModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="cerrarModal()">&times;</span>
+            <h2 style="border-bottom: none; margin-bottom: 1rem;">Editar Producto</h2>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="editar" value="1">
                 <input type="hidden" name="producto_id" id="edit_producto_id">
+                
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label>Nombre</label>
@@ -125,12 +518,12 @@
                     </div>
                     <div class="form-group">
                         <label>Precio</label>
-                        <input type="number" name="precio" id="edit_precio" class="form-input" required>
+                        <input type="number" name="precio" id="edit_precio" class="form-input" required step="0.01">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Descripción</label>
-                    <textarea name="descripcion" id="edit_descripcion" class="form-input" rows="3" required></textarea>
+                    <textarea name="descripcion" id="edit_descripcion" class="form-input" rows="4" required></textarea>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
@@ -139,10 +532,10 @@
                     </div>
                     <div class="form-group">
                         <label>Nueva Imagen (opcional)</label>
-                        <input type="file" name="imagen" class="form-file-input">
+                        <input type="file" name="imagen" class="form-file-input" style="padding: 0.5rem;">
                     </div>
                 </div>
-                <button type="submit" class="btn-submit" style="width: 100%;">Actualizar Producto</button>
+                <button type="submit" class="btn btn-submit" style="width: 100%; margin-top: 1rem; padding: 0.8rem;">Actualizar Producto</button>
             </form>
         </div>
     </div>
@@ -153,7 +546,8 @@
         function abrirModalEditar(id, nombre, precio, descripcion, stock) {
             document.getElementById('edit_producto_id').value = id;
             document.getElementById('edit_nombre').value = nombre;
-            document.getElementById('edit_precio').value = precio;
+            // Ensure formatting dot instead of comma if necessary
+            document.getElementById('edit_precio').value = precio.replace(',', '.');
             document.getElementById('edit_descripcion').value = descripcion;
             document.getElementById('edit_stock').value = stock;
             modal.style.display = 'flex';
@@ -165,7 +559,7 @@
 
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                cerrarModal();
             }
         }
     </script>

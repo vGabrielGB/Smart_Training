@@ -1,77 +1,163 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Suscripción - Smart Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
+            --bg-dark: #09090b;
+            --bg-gradient: linear-gradient(145deg, #09090b 0%, #172554 100%);
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(14, 165, 233, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #0ea5e9;
+            --accent-hover: #0284c7;
+            --accent-secondary: #10b981;
+            --glass-blur: blur(16px);
+            --input-bg: rgba(9, 9, 11, 0.5);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-main);
-            margin: 0; padding: 2rem;
-            display: flex; justify-content: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .container { max-width: 600px; width: 100%; }
-        
+        /* Ambient glowing orbs */
+        .ambient-orb {
+            position: fixed; border-radius: 50%; filter: blur(100px);
+            z-index: -1; opacity: 0.4;
+            animation: pulse-float 12s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 350px; height: 350px; background: #0ea5e9; top: -100px; left: -100px; }
+        .orb-2 { width: 450px; height: 450px; background: #10b981; bottom: -150px; right: -100px; animation-delay: -6s; }
+
+        @keyframes pulse-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            100% { transform: translate(50px, 40px) scale(1.1); opacity: 0.5; }
+        }
+
+        /* Navbar Styles */
+        .header {
+            width: 100%;
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            max-width: 1200px; margin: 0 auto; padding: 1.2rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .nav-bar h1 {
+            font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            background: linear-gradient(to right, #0ea5e9, #10b981);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: var(--text-main); text-decoration: none; font-weight: 500;
+            padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s ease;
+        }
+        .nav-links a:hover { background: rgba(14, 165, 233, 0.1); color: var(--accent-primary); }
+
+        .dashboard-container {
+            max-width: 650px; width: 100%; padding: 3rem 1.5rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
         .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            background: var(--card-bg); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border); border-radius: 20px;
+            padding: 3rem 2.5rem; box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.2);
         }
 
-        h1, h2 { margin-top: 0; color: var(--text-main); }
+        h1 {
+            font-size: 2.2rem; font-weight: 800; margin-bottom: 2rem; text-align: center;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
         
+        h2 { font-size: 1.5rem; color: #fff; margin-bottom: 1.5rem; font-weight: 700; }
+
         .status-badge {
-            display: inline-block; padding: 0.25rem 0.75rem;
-            border-radius: 9999px; font-size: 0.875rem; font-weight: 600;
-            text-transform: uppercase;
+            display: inline-block; padding: 0.3rem 1rem; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            margin-left: 0.5rem; vertical-align: middle;
         }
-        .status-activa { background-color: #d1fae5; color: #065f46; }
-        .status-pendiente { background-color: #fef3c7; color: #92400e; }
+        .status-activa { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-pendiente { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
 
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;
+        }
+        .info-item {
+            background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05); text-align: center;
+        }
+        .info-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;}
+        .info-value { font-weight: 700; font-size: 1.25rem; color: var(--accent-primary); }
         
-        .form-select, .form-input, .form-file-input {
-            width: 100%; padding: 0.75rem; border: 1px solid var(--border-color);
-            border-radius: 4px; box-sizing: border-box; font-size: 1rem;
+        .messages { list-style: none; margin-bottom: 2rem; }
+        .messages li {
+            padding: 1rem 1.5rem; margin-bottom: 1rem; border-radius: 12px;
+            background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399; font-weight: 500; text-align: center;
+        }
+        .messages li.warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 500; color: #cbd5e1; font-size: 0.95rem; }
+        .form-select, .form-input, .form-file-input, select, input[type="text"] {
+            width: 100%; padding: 0.8rem 1rem; background-color: var(--input-bg);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+            color: white; font-family: inherit; font-size: 1rem; transition: all 0.3s ease; outline: none;
+            box-sizing: border-box;
+        }
+        .form-select:focus, .form-input:focus, select:focus, input[type="text"]:focus {
+            border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
         }
 
         .btn-submit {
-            background-color: var(--primary-color); color: white;
-            padding: 0.75rem 1.5rem; border: none; border-radius: 4px;
-            font-size: 1rem; cursor: pointer; font-weight: 600;
-            width: 100%; transition: background-color 0.2s;
+            background: linear-gradient(135deg, var(--accent-primary), #0284c7);
+            color: white; padding: 1rem 2rem; border: none; border-radius: 50px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer; display: block; width: 100%;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); text-decoration: none;
+            transition: all 0.3s ease; margin-top: 2.5rem;
         }
-        .btn-submit:hover { background-color: var(--primary-hover); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6); }
 
-        .info-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 1rem; margin-top: 1.5rem;
-        }
-        .info-item { background-color: var(--bg-color); padding: 1rem; border-radius: 4px; }
-        .info-label { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-        .info-value { font-weight: 600; font-size: 1.125rem; }
-        
-        .messages { list-style: none; padding: 0; }
-        .messages li { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background-color: #d1fae5; color: #065f46; }
-        .messages li.warning { background-color: #fef3c7; color: #92400e; }
     </style>
 </head>
 <body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
     {% include 'includes/navbar_cliente.html' %}
 
     <div class="dashboard-container">
@@ -87,7 +173,9 @@
             <h1>Panel de Suscripción</h1>
             
             {% if suscripcion %}
-                <h2>Estado: <span class="status-badge status-{{ suscripcion.estado }}">{{ suscripcion.get_estado_display }}</span></h2>
+                <h2 style="display: flex; align-items: center; justify-content: center;">
+                    Estado: <span class="status-badge status-{{ suscripcion.estado }}">{{ suscripcion.get_estado_display }}</span>
+                </h2>
                 
                 <div class="info-grid">
                     <div class="info-item">
@@ -103,16 +191,15 @@
                 </div>
                 
                 {% if suscripcion.estado == 'pendiente' %}
-                <p style="margin-top: 1.5rem; color: var(--text-muted);">
+                <p style="margin-top: 1.5rem; color: var(--text-muted); text-align: center; line-height: 1.6;">
                     Tu comprobante de pago está siendo verificado. Tendrás acceso total una vez sea aprobado.
                 </p>
                 {% endif %}
                 
             {% else %}
                 <h2>Reportar Pago de Membresía</h2>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">No tienes planes activos. Selecciona tu plan y envía el comprobante.</p>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center;">No tienes planes activos. Selecciona tu plan y envía el comprobante para empezar.</p>
                 
-                <!-- ¡enctype="multipart/form-data" es fundamental para recibir captura_pago! -->
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     
